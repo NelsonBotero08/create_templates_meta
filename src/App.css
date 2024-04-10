@@ -16,9 +16,9 @@
   padding: 0 20px;
   display: grid;
   grid-template-columns: 70% 30%;
-  border: 1px solid black;
+  border: 1px solid rgb(158, 158, 158);
   border-radius: 0.3em;
-  background-color: rgb(255, 255, 255);
+  background-color: #ece5dd;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -39,6 +39,7 @@
   margin-bottom: 1.5em;
   text-align: center;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: rgb(110, 110, 110);
 }
 
 .div__create--template{
@@ -175,8 +176,10 @@
 .mensaje__variables{
   margin: 10px 0;
   padding: 20px;
-  background-color: rgb(199, 217, 223);
+  background-color: rgb(203, 233, 215);
   border-radius: 0.3em;
+  border: 1px solid rgb(197, 197, 197);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .mensaje__variables p {
