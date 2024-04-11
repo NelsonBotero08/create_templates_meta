@@ -18,6 +18,7 @@ function App() {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const [inputText, setInputText] = useState("");
+  const [variableInputs, setVariableInputs] = useState({});
   const textareaRef = useRef(null);
 
   const applyFormat = (format) => {
@@ -52,10 +53,21 @@ function App() {
 
   const handleChange = (event) => {
     const newValue = event.target.value;
-    setValue(newValue);
+    setValue(newValue); // Actualiza el valor del textarea principal
     setCharacterCount(newValue.length);
-    setInputText(newValue); 
+    setInputText(newValue); // También actualiza el estado 'inputText' para reflejar los cambios en la vista previa
   };
+  
+  const handleVariableChange = (event, variableNumber) => {
+    const newValue = event.target.value;
+    setVariableInputs(prevState => ({
+      ...prevState,
+      [variableNumber]: newValue
+    }));
+  };
+  
+  
+  
 
   useEffect(() => {
     setLastVariableNumber(Math.max(...variables, 0));
@@ -141,15 +153,15 @@ function App() {
       event.preventDefault();
       const textAreaValue = event.target.value;
       const cursorPosition = event.target.selectionStart;
-
+  
       const lines = textAreaValue.split('\n');
       const currentLineNumber = textAreaValue.substr(0, cursorPosition).split('\n').length;
       const textBeforeCursor = lines[currentLineNumber - 1];
-
+  
       if (textBeforeCursor.trim() !== '') {
-        const newValue = textAreaValue.substring(0, cursorPosition) + '\n' + textAreaValue.substring(cursorPosition);
+        const newValue = textAreaValue.substring(0, cursorPosition) + '\n\n' + textAreaValue.substring(cursorPosition);
         setValue(newValue);
-        event.target.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+        event.target.setSelectionRange(cursorPosition + 2, cursorPosition + 2);
       } else {
         if (cursorPosition === textAreaValue.length) {
           event.target.setSelectionRange(cursorPosition, cursorPosition);
@@ -157,6 +169,7 @@ function App() {
       }
     }
   };
+  
 
   const parseTextToHtml = (text) => {
     let htmlText = text.replace(/\n/g, "<br>");
@@ -164,6 +177,12 @@ function App() {
     htmlText = htmlText.replace(/_(.*?)_/g, "<em>$1</em>");
     htmlText = htmlText.replace(/~(.*?)~/g, "<strike>$1</strike>");
     htmlText = htmlText.replace(/```(.*?)```/g, "<code>$1</code>");
+  
+    // Reemplaza las variables por sus valores de input
+    Object.keys(variableInputs).forEach(variableNumber => {
+      const regex = new RegExp(`\\{\\{${variableNumber}\\}\\}`, "g");
+      htmlText = htmlText.replace(regex, variableInputs[variableNumber]);
+    });
   
     return htmlText;
   };
@@ -242,7 +261,13 @@ function App() {
                 .map((variable, index) => (
                   <div className="div__label--input" key={variable}>
                     <label htmlFor={`variable-${variable}`}>{`{{${variable}}}`}</label>
-                    <input id={`variable-${variable}`} placeholder={`introduce contenido para ${variable}`} type="text" />
+                    <input
+                      id={`variable-${variable}`}
+                      placeholder={`Introduce contenido para ${variable}`}
+                      type="text"
+                      value={variableInputs[variable] || ""}
+                      onChange={(event) => handleVariableChange(event, variable)}
+                    />
                   </div>
                 ))}
             </section>
