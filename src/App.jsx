@@ -21,7 +21,6 @@ function App() {
   const [variableInputs, setVariableInputs] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [areVariablesValid, setAreVariablesValid] = useState(false);
- console.log(inputValue)
   const textareaRef = useRef(null);
 
   const handleChangeInput = (event) => {

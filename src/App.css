@@ -69,12 +69,14 @@
 }
 
 .section__create--template{
+  margin-top: 1em;
   padding: 0 1em;
   display: flex;
   flex-direction: column; 
 }
 
 .section__create--template2{
+  margin-top: 1em;
   width: 90%;
   padding: 0 2em;;
   display: flex;
@@ -286,6 +288,7 @@
   border: 1px solid #84d3a1;
   border-radius: 1em;
   background-color: #dcf8c6;
+  overflow-wrap: break-word;
 }
 
 .newpreviwe{
@@ -313,10 +316,3 @@
     background-color: #dcf8c6;
   }
 }
-
-
-
-
-
-
- 
