@@ -53,9 +53,9 @@ function App() {
 
   const handleChange = (event) => {
     const newValue = event.target.value;
-    setValue(newValue); // Actualiza el valor del textarea principal
+    setValue(newValue); 
     setCharacterCount(newValue.length);
-    setInputText(newValue); // También actualiza el estado 'inputText' para reflejar los cambios en la vista previa
+    setInputText(newValue); 
   };
   
   const handleVariableChange = (event, variableNumber) => {
