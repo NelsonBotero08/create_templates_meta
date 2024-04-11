@@ -189,6 +189,7 @@
 
 
 .view_preview{
+  display: block;
   width: 85%;
   min-height: 16vh;
   border: 1px solid rgb(219, 219, 219);
@@ -200,7 +201,8 @@
   position: relative; 
 }
 
-.view_preview::before {
+.view_preview__block::before {
+  display: block;
   content: ''; 
   position: absolute;
   top: 30px; 
@@ -211,12 +213,21 @@
   border-color: transparent transparent #cff0b5 transparent; 
 }
 
+.view_preview__none::before {
+  display: none;
+} 
+
 .preview{
+  display: block;
   width: 90%;
   padding: 15px;
   border: 1px solid #84d3a1;
   border-radius: 1em;
   background-color: #dcf8c6;
+}
+
+.newpreviwe{
+  display: none;
 }
 
 .view_preview {

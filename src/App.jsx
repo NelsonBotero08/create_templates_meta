@@ -54,7 +54,7 @@ function App() {
     const newValue = event.target.value;
     setValue(newValue);
     setCharacterCount(newValue.length);
-    setInputText(newValue); // Update inputText with the current value
+    setInputText(newValue); 
   };
 
   useEffect(() => {
@@ -113,23 +113,28 @@ function App() {
   }, [value]);
 
   const handleAddVariable = () => {
-    let nextVariable = 1;
-    for (nextVariable = 1; nextVariable <= variables.length + 1; nextVariable++) {
-      if (!variables.includes(nextVariable)) {
-        const newVariable = `{{${nextVariable}}}`;
-        setValue(value + newVariable);
-        setVariableSequenceError(false);
-        return;
-      }
-    }
-
-    const expectedSequence = [...Array(variables.length + 1).keys()].slice(1);
-    const missingVariables = expectedSequence.filter(x => !variables.includes(x));
-
-    if (missingVariables.length > 0) {
-      setVariableSequenceError(true);
+    const siguienteVariable = lastVariableNumber + 1;
+    const nuevaVariable = `{{${siguienteVariable}}}`;
+  
+    // Agregar la variable si no existe
+    if (!variables.includes(siguienteVariable)) {
+      setValue(value + nuevaVariable);
+      setVariables([...variables, siguienteVariable]);
     }
   };
+  
+  useEffect(() => {
+    const maxVariableNumber = variables.length > 0 ? Math.max(...variables) : 0;
+    const expectedSequence = [...Array(maxVariableNumber + 1).keys()].slice(1);
+    const missingVariables = expectedSequence.filter(x => !variables.includes(x));
+  
+    if (missingVariables.length > 0) {
+      setVariableSequenceError(true);
+    } else {
+      setVariableSequenceError(false);
+    }
+  }, [variables]);
+  
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -154,16 +159,10 @@ function App() {
   };
 
   const parseTextToHtml = (text) => {
-    // Reemplaza saltos de línea con etiquetas <br>
     let htmlText = text.replace(/\n/g, "<br>");
-  
-    // Reemplaza *texto* con <strong>texto</strong>
     htmlText = htmlText.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
-    // Reemplaza _texto_ con <em>texto</em>
     htmlText = htmlText.replace(/_(.*?)_/g, "<em>$1</em>");
-    // Reemplaza ~texto~ con <strike>texto</strike>
     htmlText = htmlText.replace(/~(.*?)~/g, "<strike>$1</strike>");
-    // Reemplaza ```texto``` con <code>texto</code>
     htmlText = htmlText.replace(/```(.*?)```/g, "<code>$1</code>");
   
     return htmlText;
@@ -250,10 +249,10 @@ function App() {
           </section>
           <section className="section__create--template2">
                 <h2 className="title__create--template">Vista Previa</h2>
-                <div className="view_preview">
+                <div className={`view_preview ${value.length > 0 ? "view_preview__block" : "view_preview__none"}`}>
                   <div
-                  className="preview"
-                  dangerouslySetInnerHTML={{ __html: parseTextToHtml(inputText) }}
+                    className={value.length > 0 ? "preview" : "newpreviwe"} 
+                    dangerouslySetInnerHTML={{ __html: parseTextToHtml(inputText) }}
                   />
                 </div>
               
