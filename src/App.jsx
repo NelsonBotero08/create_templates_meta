@@ -19,7 +19,24 @@ function App() {
   const [isCode, setIsCode] = useState(false);
   const [inputText, setInputText] = useState("");
   const [variableInputs, setVariableInputs] = useState({});
+  const [inputValue, setInputValue] = useState("");
+  const [areVariablesValid, setAreVariablesValid] = useState(false);
+ console.log(inputValue)
   const textareaRef = useRef(null);
+
+  const handleChangeInput = (event) => {
+    const newValue = event.target.value.toLowerCase().replace(/[^a-z0-9_ ]/g, '').replace(/\s+/g, '_');
+    setInputValue(newValue);
+  };
+  
+  useEffect(() => {
+    const isMainInputEmpty = inputValue.trim() === '';
+    const areAnyVariableInputsEmpty = Object.values(variableInputs).some(input => input.trim() === "");
+    setAreVariablesValid(isMainInputEmpty || areAnyVariableInputsEmpty);
+
+  }, [inputValue, variableInputs]);
+
+  
 
   const applyFormat = (format) => {
     const cursorStart = textareaRef.current.selectionStart;
@@ -65,9 +82,6 @@ function App() {
       [variableNumber]: newValue
     }));
   };
-  
-  
-  
 
   useEffect(() => {
     setLastVariableNumber(Math.max(...variables, 0));
@@ -133,7 +147,11 @@ function App() {
     if (!variables.includes(siguienteVariable)) {
       setValue(newValue);
       setVariables([...variables, siguienteVariable]);
-    }
+      setVariableInputs(prevState => ({
+        ...prevState,
+        [siguienteVariable]: "" 
+      }));
+    } 
   };
   
   useEffect(() => {
@@ -193,10 +211,24 @@ function App() {
     <>
       <div className="container">
         <article className="article--contain__template">
+          <section className="title_primary">
+            <h2>Formulario Creacion de plantillas</h2>
+            <section className="seccion_titulo_plantilla">
+              <div>
+                <div className="div--title--btn">
+                  <label htmlFor="titulo_plantilla">Asigna un nombre a la plantilla de mensaje.</label>
+                  <div className="div_env_template">
+                <button disabled={areVariablesValid} className="btn__add--variable2">Enviar Plantilla</button>
+              </div>
+                </div>
+                <input onInput={(event) => handleChangeInput(event)} id="input_titulo_plantilla" type="text" value={inputValue} className="input_titulo_plantilla" />
+              </div>
+            </section>
+          </section>
           <section className="section__create--template">
-            <h2 className="title__create--template">
+            <h3 className="title__create--template">
               Ingresar Texto para la plantilla
-            </h2>
+            </h3>
             <div className="div__create--template">
               <textarea
                 ref={textareaRef}
@@ -267,14 +299,14 @@ function App() {
                       placeholder={`Introduce contenido para ${variable}`}
                       type="text"
                       value={variableInputs[variable] || ""}
-                      onChange={(event) => handleVariableChange(event, variable)}
+                      onChange={(event) => {handleVariableChange(event, variable)}}
                     />
                   </div>
                 ))}
             </section>
           </section>
           <section className="section__create--template2">
-                <h2 className="title__create--template">Vista Previa</h2>
+                <h3 className="title__create--template">Vista Previa</h3>
                 <div className={`view_preview ${value.length > 0 ? "view_preview__block" : "view_preview__none"}`}>
                   <div
                     className={value.length > 0 ? "preview" : "newpreviwe"} 
