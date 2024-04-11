@@ -127,10 +127,11 @@ function App() {
   const handleAddVariable = () => {
     const siguienteVariable = lastVariableNumber + 1;
     const nuevaVariable = `{{${siguienteVariable}}}`;
+    const cursorPosition = textareaRef.current.selectionStart;
+    const newValue = value.substring(0, cursorPosition) + `${nuevaVariable}` + value.substring(cursorPosition);
   
-    // Agregar la variable si no existe
     if (!variables.includes(siguienteVariable)) {
-      setValue(value + nuevaVariable);
+      setValue(newValue);
       setVariables([...variables, siguienteVariable]);
     }
   };
