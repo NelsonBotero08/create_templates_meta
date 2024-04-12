@@ -64,10 +64,11 @@ function App() {
   
   useEffect(() => {
     const isMainInputEmpty = inputValue.trim() === '';
+    const isTextAreaTemplate = textareaRef.current.value.trim() === '';
     const areAnyVariableInputsEmpty = Object.values(variableInputs).some(input => input.trim() === "");
-    setAreVariablesValid(isMainInputEmpty || areAnyVariableInputsEmpty);
+    setAreVariablesValid(isMainInputEmpty || areAnyVariableInputsEmpty || isTextAreaTemplate);
 
-  }, [inputValue, variableInputs]);
+  }, [inputValue, variableInputs, value]);
 
   
 
