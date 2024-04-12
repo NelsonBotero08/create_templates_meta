@@ -21,7 +21,41 @@ function App() {
   const [variableInputs, setVariableInputs] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [areVariablesValid, setAreVariablesValid] = useState(false);
+  const [resServidor, setResServidor] = useState(false)
   const textareaRef = useRef(null);
+
+  const sendDataToBackend = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/datos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          inputValue,
+          variableInputs,
+          inputText
+        })
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        if(responseData.message === "Datos recibidos correctamente"){
+          setInputValue("");
+          setVariableInputs({});
+          setValue("");
+          setResServidor(true)
+          setTimeout(() => {
+            setResServidor(false)
+        }, 2000);
+        }
+      } else {
+        console.error('Error al enviar datos al backend:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
+  };
 
   const handleChangeInput = (event) => {
     const newValue = event.target.value.toLowerCase().replace(/[^a-z0-9_ ]/g, '').replace(/\s+/g, '_');
@@ -209,6 +243,13 @@ function App() {
   return (
     <>
       <div className="container">
+        {resServidor && (
+              <div className="modal">
+                <div className="modal-content">
+                  <p>Datos enviados con exito</p>
+                </div>
+              </div>
+            )}
         <article className="article--contain__template">
           <section className="title_primary">
             <h2>Formulario Creacion de plantillas</h2>
@@ -217,7 +258,7 @@ function App() {
                 <div className="div--title--btn">
                   <label htmlFor="titulo_plantilla">Asigna un nombre a la plantilla de mensaje.</label>
                   <div className="div_env_template">
-                <button disabled={areVariablesValid} className="btn__add--variable2">Enviar Plantilla</button>
+                <button disabled={areVariablesValid} onClick={sendDataToBackend} className="btn__add--variable2">Enviar Plantilla</button>
               </div>
                 </div>
                 <input onInput={(event) => handleChangeInput(event)} id="input_titulo_plantilla" type="text" value={inputValue} className="input_titulo_plantilla" />
