@@ -4,6 +4,7 @@ import { faSmile, faBold, faItalic, faCode, faStrikethrough } from '@fortawesome
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import "./createTemplates.css"
+import { Link } from "react-router-dom";
 
 const CreateTemplates = () => {
   const [value, setValue] = useState("");
@@ -243,6 +244,14 @@ const CreateTemplates = () => {
   return (
     <div>
       <div className="container">
+        <h1 className="welcome">Bienvenido</h1>
+        <div className="div_getTemplates">
+          <h2>Creación y consulta de plantillas Multiagente</h2>
+          <Link to="/get"> 
+            <button className='btn_gettemplate'>Consultar pantillas</button>
+         </Link> 
+        </div>
+      
         {resServidor && (
               <div className="modal">
                 <div className="modal-content">
@@ -256,7 +265,7 @@ const CreateTemplates = () => {
             <section className="seccion_titulo_plantilla">
               <div>
                 <div className="div--title--btn">
-                  <label htmlFor="titulo_plantilla">Asigna un nombre a la plantilla de mensaje.</label>
+                  <label htmlFor="titulo_plantilla">Asigna un nombre a la plantilla.</label>
                   <div className="div_env_template">
                 <button disabled={areVariablesValid} onClick={sendDataToBackend} className="btn__add--variable2">Enviar Plantilla</button>
               </div>

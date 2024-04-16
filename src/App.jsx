@@ -1,30 +1,19 @@
-import { useState } from "react";
-import "./App.css";
-import CreateTemplates from "./components/CreateTemplates";
-import GetAllTemplates from "./components/GetAllTemplates";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CreateTemplates from './components/CreateTemplates';
+import GetAllTemplates from './components/GetAllTemplates';
 
-
-function App() {
-  // const [viewTemplate, setViewTemplate] = useState(false)
-
+const App = () => {
   return (
-    <div className="container_primary"> 
-      {/* <div>
-        <button className={viewTemplate ? "btn_templates" : ""} onClick={() => setViewTemplate(!viewTemplate)}>Crear Plantilla</button>
-      </div> */}
-      <div className="templates">
-        {/* {
-          viewTemplate && (
-            <CreateTemplates />
-          )
-        }
-      */}
-        {/* <CreateTemplates /> */}
-        <GetAllTemplates />
-      </div>  
-    </div>
+    <Router>
+      <div className="container_primary">
+        <Routes> 
+          <Route path="/create" element={<CreateTemplates />} />
+          <Route path="/get" element={<GetAllTemplates />} />
+        </Routes>
+      </div>
+    </Router>
   );
-
-}
+};
 
 export default App;

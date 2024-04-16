@@ -1,13 +1,15 @@
 .container_primary {
-  width: 100vw;
-  height: 100vh
+  width: 100%;
+  height: 100vh;
+}
+
+.home{
+  padding-top: 3em;
+  width: 100%;
+  height: 100vh;
 }
 
 .templates{
   width: 100%;
   height: 100vh;
-}
-
-.btn_templates{
-  display: none;
 }
