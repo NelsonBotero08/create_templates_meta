@@ -1,0 +1,39 @@
+
+.table__templates {
+    width: 100%;
+    border: 1px solid #dee2e6;
+  }
+  
+  .head__table--template th,
+  .body__get--template td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .head__table--template th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .body__get--template tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .body__get--template tr:hover {
+    background-color: #e2e6ea;
+  }
+  
+  .loading-row {
+    background-color: #f9f9f9; 
+  }
+  
+  .loading-cell {
+    height: 50px; 
+    margin-bottom: 50px; 
+    background-color: #ddd; 
+  }
+  
+  .loading-cell:last-child {
+    margin-right: 0; 
+  }
+  
