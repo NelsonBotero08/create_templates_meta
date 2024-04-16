@@ -12,6 +12,8 @@
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.9.2",
     "react": "^18.2.0",
