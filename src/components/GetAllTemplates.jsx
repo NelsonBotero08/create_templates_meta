@@ -3,30 +3,32 @@ import "./GetAllTemplates.css"
 import { Link } from "react-router-dom";
 
 const GetAllTemplates = () => {
+
   const [templates, setTemplates] = useState([]);
 
-  useEffect(() => {
-    const getDataTemplate = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/templates", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setTemplates(data.result.rows);
-        } else {
-          console.error("Error al obtener los datos:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error de red:", error);
+  const getDataTemplate = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/templates", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setTemplates(data.result.rows);
+      } else {
+        console.error("Error al obtener los datos:", response.statusText);
       }
-    };
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  };
 
+  useEffect(() => {
+    
     getDataTemplate();
-  }, []);
+  }, [templates]);
 
   const getStatusText = (idEstatus) => {
     switch (idEstatus) {
@@ -48,18 +50,19 @@ const GetAllTemplates = () => {
     return "Texto no válido";
   };
 
-  const renderActionButton = (idEstatus) => {
+  const renderActionButton = (id, idEstatus) => {
     if (idEstatus === 1) {
       return (
-        <button className="button_action--desactivar" onClick={() => handleAction(idEstatus)}>Desactivar</button>
+        <button className="button_action--desactivar" onClick={() => handleAction(id, idEstatus)}>Desactivar</button>
       );
     } else if (idEstatus === 0) {
-      return <button className="button_action" onClick={() => handleAction(idEstatus)}>Activar</button>;
+      return <button className="button_action" onClick={() => handleAction(id, idEstatus)}>Activar</button>;
     }
     return null;
   };
 
-  const handleAction = (id) => {
+  const handleAction = (id, idEstatus) => {
+    console.log(id, idEstatus)
     const updatestatusTemplate = async () => {
       try {
         const response = await fetch(`http://localhost:8080/status/${id}`, {
@@ -67,8 +70,10 @@ const GetAllTemplates = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ status: idEstatus }),
         });
         if (response.ok) {
+          
         } else {
           console.error("Error al obtener los datos:", response.statusText);
         }
@@ -78,6 +83,8 @@ const GetAllTemplates = () => {
     };
     updatestatusTemplate();
   };
+
+  
 
   return (
     <div className="container__gettemplates">
@@ -91,7 +98,7 @@ const GetAllTemplates = () => {
             ></img>
           </figure>
           <div className="div__btn__create">
-            <Link to="/create"> 
+            <Link to="/"> 
               <button className='btn_create--template'>Crear Plantillas</button>
           </Link> 
           </div>
@@ -112,7 +119,7 @@ const GetAllTemplates = () => {
                   <td>{template.nombre}</td>
                   <td>{getText(template.texto)}</td>
                   <td className={`status ${getStatusText(template.idestatus)}`}>{getStatusText(template.idestatus)}</td>
-                  <td>{renderActionButton(template.idestatus)}</td>
+                  <td>{renderActionButton(template.id , template.idestatus)}</td>
                 </tr>
               ))}
             </tbody>

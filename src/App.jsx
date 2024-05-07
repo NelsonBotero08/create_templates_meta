@@ -8,7 +8,7 @@ const App = () => {
     <Router>
       <div className="container_primary">
         <Routes> 
-          <Route path="/create" element={<CreateTemplates />} />
+          <Route path="/" element={<CreateTemplates />} />
           <Route path="/get" element={<GetAllTemplates />} />
         </Routes>
       </div>

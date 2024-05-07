@@ -13,6 +13,7 @@ const CreateTemplates = () => {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [lastVariableNumber, setLastVariableNumber] = useState(0);
+  const [characterCountError, setCharacterCountError] = useState(false);
   const [variableSequenceError, setVariableSequenceError] = useState(false);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -67,7 +68,13 @@ const CreateTemplates = () => {
     const isMainInputEmpty = inputValue.trim() === '';
     const isTextAreaTemplate = textareaRef.current.value.trim() === '';
     const areAnyVariableInputsEmpty = Object.values(variableInputs).some(input => input.trim() === "");
-    setAreVariablesValid(isMainInputEmpty || areAnyVariableInputsEmpty || isTextAreaTemplate);
+    const countCharacter = characterCount
+    if(countCharacter > 574){
+      setCharacterCountError(true)
+    } else {
+      setCharacterCountError(false)
+    }
+    setAreVariablesValid(isMainInputEmpty || areAnyVariableInputsEmpty || isTextAreaTemplate || countCharacter > 574);
 
   }, [inputValue, variableInputs, value]);
 
@@ -289,11 +296,11 @@ const CreateTemplates = () => {
                 id="textarea__create"
                 rows="8"
                 cols="30"
-                maxLength="1072"
+                maxLength="550"
                 onClick={() => textareaRef.current.focus()}>
               </textarea>
               <div className="character-counter" id="character-counter">
-                {characterCount}/1072
+                {characterCount}/574
               </div>
             </div>
             <div className="div__variables">
@@ -324,6 +331,13 @@ const CreateTemplates = () => {
             <div className={isPickerVisible ? "visibility" : "noVisibility"}>
               <Picker data={data} onEmojiSelect={(emoji) => handleEmojiSelect(emoji)} />
             </div>
+            { characterCountError && (
+              <div className="error-message">
+                <p>
+                  ¡Error! estas pasando la cantidad de caracteres de una plantilla
+                </p>
+              </div>
+            )}
             {variableSequenceError && (
               <div className="error-message">
                 <p>
